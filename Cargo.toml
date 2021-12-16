@@ -1,0 +1,24 @@
+[package]
+name = "vizia_vst_demo"
+version = "0.1.0"
+edition = "2021"
+
+
+[lib]
+name = "vizia_vst_demo"
+crate-type = ["cdylib"]
+
+[dependencies]
+raw-window-handle = "0.3"
+vst = "0.2.1"
+vizia = {git = "https://github.com/geom3trik/VIZIA", branch = "main", features = ["baseview"], default-features = false}
+# vizia = {path = "../VIZIA", features = ["baseview"], default-features = false}
+# vizia = {path = "../VIZIA"}
+gain_vst_core = {path = "core"}
+dirs = "3"
+log = "0.4"
+log-panics = "2"
+simplelog = "0.8"
+
+[dev-dependencies]
+gain_vst_core = {path = "core"}
