@@ -7,16 +7,21 @@ use vst::plugin::{Category, Info, Plugin, PluginParameters};
 
 
 use raw_window_handle::{HasRawWindowHandle, RawWindowHandle};
+use vst::util::AtomicFloat;
 
 
 use std::sync::Arc;
 
 use vizia::*;
 
-use gain_vst_core::*;
+mod ui;
+pub use ui::*;
 
 const WINDOW_WIDTH: usize = 300;
 const WINDOW_HEIGHT: usize = 300;
+
+mod dsp;
+use dsp::*;
 
 struct GainPluginEditor {
     params: Arc<GainEffectParameters>,
@@ -41,7 +46,9 @@ impl Editor for GainPluginEditor {
 
         let params = self.params.clone();
 
-        let window_description = WindowDescription::new().with_inner_size(WINDOW_WIDTH as u32, WINDOW_HEIGHT as u32).with_title("Hello Plugin");
+        let window_description = WindowDescription::new()
+            .with_inner_size(WINDOW_WIDTH as u32, WINDOW_HEIGHT as u32)
+            .with_title("Hello Plugin");
 
         Application::new(window_description, move |cx| {
 

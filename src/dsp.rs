@@ -1,8 +1,3 @@
-
-
-
-mod ui;
-pub use ui::*;
 use vst::{util::AtomicFloat, plugin::PluginParameters};
 
 

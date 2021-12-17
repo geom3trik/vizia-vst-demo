@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use vizia::*;
 
-use crate::{GainEffectParameters};
+use crate::GainEffectParameters;
 
 const STYLE: &str = r#"
 
@@ -25,14 +25,6 @@ const STYLE: &str = r#"
 #[derive(Lens, Clone)]
 pub struct Params {
     gain: Arc<GainEffectParameters>,
-    changed: bool,
-}
-
-impl Data for Params {
-    fn same(&self, other: &Self) -> bool {
-        // TODO - Find this
-        false
-    }
 }
 
 #[derive(Debug)]
@@ -46,7 +38,6 @@ impl Model for Params {
             match param_change_event {
                 ParamChangeEvent::SetGain(new_gain) => {
                     self.gain.amplitude.set(*new_gain);
-                    self.changed ^= true;
                 }
             }
         }
@@ -58,20 +49,19 @@ pub fn plugin_gui(cx: &mut Context, params: Arc<GainEffectParameters>) {
 
     Params {
         gain: params.clone(),
-        changed: false,
     }.build(cx);
 
     VStack::new(cx, |cx|{
         Label::new(cx, "GAIN");
 
-        //let map = DecibelMap::new(-12.0, 12.0, ValueScaling::Linear, DisplayDecimals::One, true);
         let map = GenericMap::new(0.0, 1.0, ValueScaling::Linear, DisplayDecimals::Two, None);
-        //let normalized_default = map.db_to_normalized(0.0);
+
         Knob::new(cx, map.clone(), 1.0).on_changing(cx, |knob, cx|{
             cx.emit(ParamChangeEvent::SetGain(knob.normalized_value));
         });
-        Binding::new(cx, Params::root, move |cx, params|{
-            let amplitude = params.get(cx).gain.amplitude.get();
+
+        Binding::new(cx, Params::gain, move |cx, gain|{
+            let amplitude = gain.get(cx).amplitude.get();
             Label::new(cx, &map.normalized_to_display(amplitude));
         });
 
