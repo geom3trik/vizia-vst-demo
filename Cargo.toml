@@ -19,7 +19,6 @@ raw-window-handle = "0.3"
 vst = "0.2.1"
 vizia = {git = "https://github.com/geom3trik/VIZIA", branch = "main", features = ["baseview"], default-features = false}
 # vizia = {path = "../VIZIA", features = ["baseview"], default-features = false}
-# vizia = {path = "../VIZIA"}
 dirs = "3"
 log = "0.4"
 log-panics = "2"

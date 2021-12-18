@@ -22,7 +22,7 @@ const STYLE: &str = r#"
 
 "#;
 
-#[derive(Lens, Clone)]
+#[derive(Lens)]
 pub struct Params {
     gain: Arc<GainEffectParameters>,
 }
