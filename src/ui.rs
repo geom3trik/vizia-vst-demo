@@ -56,12 +56,12 @@ pub fn plugin_gui(cx: &mut Context, params: Arc<GainEffectParameters>) {
 
         let map = GenericMap::new(0.0, 1.0, ValueScaling::Linear, DisplayDecimals::Two, None);
 
-        Knob::new(cx, map.clone(), 1.0).on_changing(cx, |knob, cx|{
-            cx.emit(ParamChangeEvent::SetGain(knob.normalized_value));
-        });
-
+        
         Binding::new(cx, Params::gain, move |cx, gain|{
             let amplitude = gain.get(cx).amplitude.get();
+            Knob::new(cx, 1.0, amplitude, false).on_changing(|knob, cx|{
+                cx.emit(ParamChangeEvent::SetGain(knob.normalized_value));
+            });
             Label::new(cx, &map.normalized_to_display(amplitude));
         });
 
